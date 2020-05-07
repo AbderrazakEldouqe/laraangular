@@ -254,6 +254,91 @@ change error in controller to Email or password does't exist
 
 
 ****7 Signup  ******
+add signup route in api.php
+Route::post('signup', 'AuthController@signup');
+add function signup in controller
+ public function signup(Request $request)
+    {
+        $user = User::create($request->all());
+        return $this->login($request);
+    }
+in contructeur controlleur add signup too
+public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login','signup']]);
+    }
+add html and function submit
+
+add request in php 
+php artisan make:request SignUpRequest
+
+set authorize to true
+
+and go to rules
+return [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed'
+        ];
+
+modify request  in controller in singup
+public function signup(SignUpRequest $request)
+    {
+        $user = User::create($request->all());
+        return $this->login($request);
+    }
+and crypt password go to model user in app\user
+add function 
+ public function setPasswordAttribute($value)
+    {
+        return $this->attributes['password']=bcrypt($value);
+    }
+
+in your component signup 
+public form = {
+    email: null,
+    name: null,
+    password: null,
+    password_confirmation: null
+  };
+  public error= [];
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+  }
+
+  onSubmit()
+  {
+    return this.http.post('http://localhost:8000/api/signup',this.form).subscribe(
+      data=>console.log(data),
+      error=> this.handleError(error)
+    );
+  }
+  handleError(error)
+  {
+    this.error=error.error.errors;
+  }
+in html add test error
+<div class="form-group row">
+                  <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" 
+                        class="form-control"
+                         id="inputPassword3"
+                         name="password"
+                         [(ngModel)]="form.password"
+                         required
+                         >
+                         <div class="alert alert-danger" [hidden]="!error.password">
+                            {{error.password}}
+                          </div>
+                  </div>
+                </div>
+
+**************
+***8 Refactor with Service******
+
+
 
 
 
