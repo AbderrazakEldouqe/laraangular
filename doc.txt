@@ -19,7 +19,8 @@ profile
 signup
 
 
-****** 3 ******
+****** 3 configure jwt******
+https://jwt-auth.readthedocs.io/en/develop/quick-start/
 1) configure jwt 
 Add the service provider to the providers array in the config/app.php config file as follows:
 'providers' => [
@@ -188,4 +189,73 @@ class AuthController extends Controller
         ]);
     }
 }
+****4 angular routing****
+1) add navbar html 
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">Navbar</a>
+    <form class="form-inline">
+        <a class="navbar-brand mr-5" routerLink="/login">Login</a>
+        <a class="navbar-brand mr-5" routerLink="/profile">Profile</a>
+    </form>
+  </nav>
+2) add in app compnent html touter-outlet
+<app-navbar></app-navbar>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+3)add in app-routing.module.ts our routes
+const routes: Routes = [
+  {path: "login",component: LoginComponent},
+  {path: "signup",component: SignupComponent},
+  {path: "profile",component: ProfileComponent},
+  {path: "request-password-reset",component: RequestResetComponent},
+  {path: "request-password-reqponse",component: ResponseResetComponent},
+];
+
+
+****5 create login ***
+add html login
+import httpClientModule 
+import { HttpClientModule } from '@angular/common/http';
+
+add function onSubmit 
+onSubmit()
+  {
+    console.log("dd");
+    return this.http.post('http://localhost:8000/api/auth/login',this.form).subscribe(
+      data=>console.log(data),
+      error=>console.log(error)
+    );
+  }
+
+****6 cros ******
+
+php artisan make:middlewire cors
+go to app http middleware in this middelware add
+header('Acces-Control-Allow-Origin : *');
+header('Acces-Control-Allow-Headers : Content-type,X-Auth-Token,Authorization,Origin');
+
+go to kernel.php 
+in $routeMiddleware 
+copy guest
+and rename to CORS
+and add in $middleware this cors
+
+----we done 401 unothorized--------------------
+in api.php remove prefix =>auth
+in url dont use auth
+add handleError
+handleError(error)
+  {
+    this.error=error.error.error;
+  }
+change error in controller to Email or password does't exist
+
+
+****7 Signup  ******
+
+
+
+
 
