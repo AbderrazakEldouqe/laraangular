@@ -337,8 +337,30 @@ in html add test error
 
 **************
 ***8 Refactor with Service******
+ng generate service Services/Jarwis --skipTests
+import this service in app.module.ts
+import { JarwisService } from './Services/jarwis.service';
 
+add in service 
+private baseUrl = 'http://localhost:8000/api';
+  constructor(private http: HttpClient) { }
+  signup(data)
+  {
+    return this.http.post(`${this.baseUrl}/signup`,data);
+  }
+  login(data)
+  {
+    return this.http.post(`${this.baseUrl}/login`,data);
+  }
 
+in component import this service and subscribe
+this.Jarwis.signup(this.form).subscribe(
+      data=>console.log(data),
+      error=> this.handleError(error)
+    );
+
+*****************
+****9 ---
 
 
 

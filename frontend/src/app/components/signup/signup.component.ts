@@ -1,5 +1,5 @@
+import { JarwisService } from './../../Services/jarwis.service';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -13,15 +13,19 @@ export class SignupComponent implements OnInit {
     password: null,
     password_confirmation: null
   };
-  public error= [];
-  constructor(private http: HttpClient) { }
+  public error = {
+    email: null,
+    name: null,
+    password: null
+  }
+  constructor(private Jarwis:JarwisService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit()
   {
-    return this.http.post('http://localhost:8000/api/signup',this.form).subscribe(
+    this.Jarwis.signup(this.form).subscribe(
       data=>console.log(data),
       error=> this.handleError(error)
     );

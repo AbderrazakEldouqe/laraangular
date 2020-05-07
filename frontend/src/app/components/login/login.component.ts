@@ -1,3 +1,4 @@
+import { JarwisService } from './../../Services/jarwis.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -11,15 +12,15 @@ export class LoginComponent implements OnInit {
     email: null,
     password: null
   };
-  public error= null;
-  constructor(private http: HttpClient) { }
+  public error;
+  constructor(private Jarwis:JarwisService) { }
 
   ngOnInit(): void {
   }
   onSubmit()
   {
     console.log("dd");
-    return this.http.post('http://localhost:8000/api/login',this.form).subscribe(
+    return this.Jarwis.login(this.form).subscribe(
       data=>console.log(data),
       error=> this.handleError(error)
     );
