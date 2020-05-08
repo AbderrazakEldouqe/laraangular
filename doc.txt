@@ -530,3 +530,22 @@ export class BeforeLoginService {
 
 3) and go to routing and call this service
   {path: "login",component: LoginComponent,canActivate: [BeforeLoginService]},
+
+
+***************
+****12 Reset Password  *****
+add html to reset password request 
+
+add in service jarwis 
+sendPasswordResetLink(data)
+  {
+    return this.http.post(`${this.baseUrl}/sendPasswordResetLink`,data);
+  }
+
+add controller php artisan make:Controller ResetPasswordController
+add route in api.php
+Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
+
+install notify
+npm install ng-snotify
+
