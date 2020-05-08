@@ -1,3 +1,4 @@
+import { TokenService } from './../../Services/token.service';
 import { JarwisService } from './../../Services/jarwis.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +14,10 @@ export class LoginComponent implements OnInit {
     password: null
   };
   public error;
-  constructor(private Jarwis:JarwisService) { }
+  constructor(
+    private Jarwis:JarwisService,
+    private Token:TokenService
+    ) { }
 
   ngOnInit(): void {
   }
@@ -21,12 +25,16 @@ export class LoginComponent implements OnInit {
   {
     console.log("dd");
     return this.Jarwis.login(this.form).subscribe(
-      data=>console.log(data),
+      data=>this.handleResponse(data),
       error=> this.handleError(error)
     );
   }
   handleError(error)
   {
     this.error=error.error.error;
+  }
+  handleResponse(data)
+  {
+    this.Token.handle(data.access_token);
   }
 }
