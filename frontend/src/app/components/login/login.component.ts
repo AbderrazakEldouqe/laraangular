@@ -1,7 +1,7 @@
 import { TokenService } from './../../Services/token.service';
 import { JarwisService } from './../../Services/jarwis.service';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,14 +16,14 @@ export class LoginComponent implements OnInit {
   public error;
   constructor(
     private Jarwis:JarwisService,
-    private Token:TokenService
+    private Token:TokenService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
   }
   onSubmit()
   {
-    console.log("dd");
     return this.Jarwis.login(this.form).subscribe(
       data=>this.handleResponse(data),
       error=> this.handleError(error)
@@ -36,5 +36,6 @@ export class LoginComponent implements OnInit {
   handleResponse(data)
   {
     this.Token.handle(data.access_token);
+    this.router.navigateByUrl('/profile');
   }
 }
