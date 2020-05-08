@@ -472,3 +472,61 @@ public loggedIn : boolean;
         
 
 
+***************
+****11 Logout & CanActivate *****
+in navbar add logout
+<a class="navbar-brand mr-5" href="#" (click)="logout($event)" *ngIf="loggedIn">Logout</a>
+logout(event : MouseEvent)
+  { 
+    event.preventDefault();
+    this.Token.remove();
+    this.Auth.changeAuthStatus(false);
+    this.router.navigateByUrl('/login');
+  }
+
+2)generate service after login and bofore login
+ng generate service Services/before-login --skipTests
+ng generate service Services/after-login --skipTests
+
+implement interface CanActivate
+and add this
+import { TokenService } from './token.service';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot,RouterStateSnapshot } from '@angular/router';
+import { Observable} from 'rxjs';
+@Injectable({
+  providedIn: 'root'
+})
+export class AfterLoginService implements CanActivate{
+
+  constructor(private Token: TokenService) { }
+  canActivate(route: ActivatedRouteSnapshot, 
+  state: RouterStateSnapshot):  boolean |
+                                Observable<boolean > |
+                                Promise<boolean > 
+  {
+      return this.Token.loggedIn();
+  }
+}
+
+import { TokenService } from './token.service';
+import { Injectable } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot,RouterStateSnapshot } from '@angular/router';
+import { Observable} from 'rxjs';
+@Injectable({
+  providedIn: 'root'
+})
+export class BeforeLoginService {
+
+  constructor(private Token: TokenService) { }
+  canActivate(route: ActivatedRouteSnapshot, 
+  state: RouterStateSnapshot):  boolean |
+                                Observable<boolean > |
+                                Promise<boolean > 
+  {
+      return !this.Token.loggedIn();
+  }
+}
+
+3) and go to routing and call this service
+  {path: "login",component: LoginComponent,canActivate: [BeforeLoginService]},
