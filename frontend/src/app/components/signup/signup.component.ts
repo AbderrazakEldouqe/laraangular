@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit {
     name: null,
     password: null
   }
+  
   constructor(
     private Jarwis:JarwisService,
     private Token:TokenService,
@@ -27,6 +28,7 @@ export class SignupComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    
   }
 
   onSubmit()

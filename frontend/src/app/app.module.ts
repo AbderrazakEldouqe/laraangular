@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { TokenService } from './Services/token.service';
 import { JarwisService } from './Services/jarwis.service';
+import { AuthService } from './Services/auth.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { JarwisService } from './Services/jarwis.service';
   ],
   providers: [
     JarwisService,
-    TokenService
+    TokenService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

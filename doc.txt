@@ -432,10 +432,43 @@ private iss = {
 ***************
 ****10  Redirect after Login, Protect Route *****
 
+add service aith
+ng generate service Services/Auth --skipTests
+in this service import
+import { TokenService } from './token.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+export class AuthService {
+  private loggedIn= new BehaviorSubject<boolean>(this.token.loggedIn());
+  authStatus=this.loggedIn.asObservable();
+  constructor(private token:TokenService) { }
+
+  changeAuthStatus(value: boolean)
+  {
+    this.loggedIn.next(value);
+  }
+}
 
 
+2) add this service in contructor login component
+and go to handle response in login component
+add /*this.Auth.changeAuthStatus(true);*/
+handleResponse(data)
+  {
+    this.Token.handle(data.access_token);
+    this.Auth.changeAuthStatus(true);
+    this.router.navigateByUrl('/profile');
+  }
 
+and check url login or logout in navbar add
+public loggedIn : boolean;
+  constructor(
+    private Auth:AuthService) { }
 
-
+  ngOnInit(): void {
+    this.Auth.authStatus.subscribe(value=> this.loggedIn=value);
+  }
+<a class="navbar-brand mr-5" routerLink="/login" *ngIf="!loggedIn">Login</a>
+        <a class="navbar-brand mr-5" routerLink="/profile" *ngIf="loggedIn">Logout</a>
+        
 
 

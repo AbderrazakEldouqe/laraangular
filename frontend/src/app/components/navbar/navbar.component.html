@@ -1,7 +1,8 @@
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand">Navbar</a>
     <form class="form-inline">
-        <a class="navbar-brand mr-5" routerLink="/login">Login</a>
-        <a class="navbar-brand mr-5" routerLink="/profile">Profile</a>
+        <a class="navbar-brand mr-5" routerLink="/login" *ngIf="!loggedIn">Login</a>
+        <a class="navbar-brand mr-5" routerLink="/profile" *ngIf="loggedIn">Logout</a>
+        <a class="navbar-brand mr-5" routerLink="/profile" >Profile</a>
     </form>
   </nav>
