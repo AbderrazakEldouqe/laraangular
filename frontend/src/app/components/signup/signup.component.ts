@@ -2,6 +2,7 @@ import { JarwisService } from './../../Services/jarwis.service';
 import { Component, OnInit } from '@angular/core';
 import { TokenService } from 'src/app/Services/token.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private Jarwis:JarwisService,
     private Token:TokenService,
-    private router: Router
+    private router: Router,
+    private Auth:AuthService
     ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,7 @@ export class SignupComponent implements OnInit {
   handleResponse(data)
   {
     this.Token.handle(data.access_token);
+    this.Auth.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
   }
 }

@@ -688,5 +688,29 @@ onSubmit()
 
   }
 
+***************************************
+***16 
 
+add in angular.json
+ "styles": [
+              "./node_modules/ng-snotify/styles/material.scss",
+              "src/styles.css"
+notify 
+
+let _router= this.router;
+    this.snotify.confirm('Done!, Now login w3ith password',{
+      buttons:[
+        {
+          text:'Okey',
+          action:toster =>{
+            _router.navigateByUrl('/login');
+            this.snotify.remove(toster.id);
+          }
+        }
+      ]
+    });
+
+ this.snotify.error(error.error.error);
+ this.snotifyService.info('Wait...',{timeout:5000});
+this.snotifyService.success(res.data,{timeout:5000});
 

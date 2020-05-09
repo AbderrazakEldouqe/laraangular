@@ -22,13 +22,15 @@ export class RequestResetComponent implements OnInit {
   }
 
   onSubmit(){
+    this.snotifyService.info('Wait...',{timeout:5000});
     this.Jarvise.sendPasswordResetLink(this.form).subscribe(
-      data => console.log(data),
+      data => this.handleResponse(data),
       error =>this.snotifyService.error(error.error.error)
     );
   }
   handleResponse(res)
   {
+    this.snotifyService.success(res.data,{timeout:5000});
     console.log(res);
     this.form.email= null;
   }
