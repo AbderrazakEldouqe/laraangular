@@ -549,3 +549,28 @@ Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
 install notify
 npm install ng-snotify
 
+***************
+****13 Send Email for Reset Password  *****
+go to Reset Controller Reset password
+
+
+
+php artisan make:mail ResetPasswordMail --markdown=Email.passwordReset
+and add function ->
+function sendEmail(Request $request)
+function send($email)
+validateEmail($email)
+failedResponse()
+function successResponse()
+and change .env with parametre mailtrap.io
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=ad5cb189498503
+MAIL_PASSWORD=a5172a5864defd
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="Example"
+
+*****************
+
