@@ -573,4 +573,62 @@ MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="Example"
 
 *****************
+****14 Send Token with Email
+php artisan make:migration password_resets_table --create=password_resets
+
+create mailable
+php artisan make:mail ResetPasswordMail --markdown=Email.passwordReset
+add in api.php
+Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
+create function in controller
+function createToken($email)
+ function saveToken($token,$email)
+
+public function send($email)
+    {
+        $token = $this->createToken($email);
+        Mail::to($email)->send(new ResetPasswordMail($token));
+    }
+
+and go to mail app > MAIL >s
+public function __construct($token)
+    {
+        $this->token=$token;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->markdown('Email.passwordReset')->with(['token'=> $this->token]);
+    }
+and go to resource views email >
+@component('mail::button', ['url' => 'http://localhost:4200/response-password-reset?token='.$token])
+
+
+and add in api.php
+ Route::post('resetPassword', 'ChangePasswordController@process');
+and add controller 
+php artisan make:Controller ChangePasswordController
+ and in service jawis add 
+changePassword(data)
+  {
+    return this.http.post(`${this.baseUrl}/changePasswordResetLink`,data);
+  }
+
+after go to response component add html 
+and get token from url 
+constructor(
+    private route:ActivatedRoute,
+    private Jarvis: JarwisService
+  ) 
+  { 
+   route.queryParams.subscribe(params=>{
+    this.form.resetToken=params['token']
+    });
+  }
+
 

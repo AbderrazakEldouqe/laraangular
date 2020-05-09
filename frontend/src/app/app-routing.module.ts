@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: "signup",component: SignupComponent,canActivate: [BeforeLoginService]},
   {path: "profile",component: ProfileComponent,canActivate: [AfterLoginService]},
   {path: "request-password-reset",component: RequestResetComponent,canActivate: [BeforeLoginService]},
-  {path: "request-password-reqponse",component: ResponseResetComponent,canActivate: [BeforeLoginService]},
+  {path: "response-password-reset",component: ResponseResetComponent,canActivate: [BeforeLoginService]},
 ];
 
 @NgModule({
